@@ -23,9 +23,37 @@ module.exports = function (grunt) {
                 }
 
             }
-        } /* grunt-fest */
+        }, /* grunt-fest */
+
+        watch: {
+            fest: {
+                files: ['templates/*.xml'],
+                tasks: 'fest',
+                options: {
+                    atBegin: true
+                }
+            },
+
+            server: {
+                files: ['public_html/js/**/*.js'],
+                options: {
+                    livereload: true
+                }
+            }
+        }, /* grunt-watch */
+
+        concurrent: {
+            target: ['watch', 'shell'],
+            options: {
+                logConcurrentOutput: true
+            }
+        } /* grunt-concurrent */
     });
 
     grunt.loadNpmTasks('grunt-shell')
     grunt.loadNpmTasks('grunt-fest')
+    grunt.loadNpmTasks('grunt-contrib-watch')
+    grunt.loadNpmTasks('grunt-concurrent')
+
+    grunt.registerTask('default', ['concurrent']);
 }
