@@ -1,0 +1,4 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <h1>Scoreboard</h1>
+    <p class="js-back">Back</p>
+</fest:template>

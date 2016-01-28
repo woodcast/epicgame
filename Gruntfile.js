@@ -1,6 +1,11 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         shell: {
+            options: {
+                stdout: true,
+                stderr: true
+            },
+
             server: {
                 command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main'
             }
@@ -15,13 +20,14 @@ module.exports = function (grunt) {
                     dest: 'public_html/js/tmpl' /* результирующая директория */
                 }],
 
-                template : function (data) {
-                    return gtunt.template.process(
-                        'var <%= name %>Tmpl = <%= contents %> ;',
-                        {data: data}
-                    );
+                options: {
+                    template : function (data) {
+                        return grunt.template.process(
+                            'var <%= name %>Tmpl = <%= contents %> ;',
+                            {data: data}
+                        );
+                    }
                 }
-
             }
         }, /* grunt-fest */
 
@@ -35,8 +41,12 @@ module.exports = function (grunt) {
             },
 
             server: {
-                files: ['public_html/js/**/*.js'],
+                files: [
+                    'public_html/js/**/*.js',
+                    'public_html/css/**/*.css'
+                    ],
                 options: {
+                    interrupt: true,
                     livereload: true
                 }
             }

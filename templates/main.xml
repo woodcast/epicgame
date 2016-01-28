@@ -1,1 +1,9 @@
-<fest>AAAAjj</fest>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div>
+        <h1>Epic Game</h1>
+        <p>Main menu</p>
+        <p class="js-scoreboard">Score BOARD</p>
+        <p class="js-start-game">Start game</p>
+        <p class="js-login">Login</p>
+    </div>
+</fest:template>

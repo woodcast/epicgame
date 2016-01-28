@@ -4,19 +4,157 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css" />
     <title></title>
-    <style>
+    <style type="text/css">
+        body {
+            font: 62.5%/1.6 Verdana, Tahoma, sans-serif;
+            color: #333333;
+        }
+        h1, h2 {
+            color: #ff6600;
+        }
+        header, main, footer {
+            margin: 30px auto;
+            width: 600px;
+        }
+        #content {
+            padding: 8px;
+        }
+        .box {
+            border:1px solid #ccc;
+            border-radius:4px;
+            box-shadow:0 0 2px #ccc;
+        }
         a.test { font-weight: bold; }
     </style>
 </head>
 <body>
-    <script src="js/jquery.js"></script>
-    <div id="page"></div>
+    <!-- Livereload -->
     <script src="//localhost:35729/livereload.js"></script>
-    <a href="..">this is link</a>
+
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/tmpl/main.js"></script>
+    <script src="js/tmpl/game.js"></script>
+    <script src="js/tmpl/login.js"></script>
+    <script src="js/tmpl/scoreboard.js"></script>
+
+
+    <header>
+        <h1>Page Title</h1>
+        <p>Page Description</p>
+    </header>
+    <main id="content" class="wrapper box">
+        <div id="page"></div>
+        <article>
+            <h2>Article Title</h2>
+            <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc urna metus, ultricies eu, congue vel, laoreet... </p>
+        </article>
+        <article>
+            <h2>Article Title</h2>
+            <p> Morbi malesuada, ante at feugiat tincidunt, enim massa gravida metus, commodo lacinia massa diam vel eros... </p>
+        </article>
+    </main>
+    <footer>&copy;copyright 2014</footer>
+
+
+    <script>
+        var $page = $('#page');
+        var currentScreen = 'main';
+
+        function showGameScreen() {
+            hideMainScreen();
+            currentScreen = 'game';
+            $page.html(gameTmpl()); // Рендерим шаблон
+
+            // Инициализируем обработчики событий
+            $page.find('.js-back').on('click', showMainScreen);
+        }
+
+        function hideGameScreen() {
+            // Удаляем установленные обработчики событий
+            $page.find('.js-back').off('click', showMainScreen);
+        }
+
+        function showLoginScreen() {
+            hideMainScreen();
+            currentScreen = 'login';
+            $page.html(loginTmpl()); // Рендерим шаблон
+
+            // Инициализируем обработчики событий
+            $page.find('.js-back').on('click', showMainScreen);
+        }
+
+        function hideLoginScreen() {
+            // Удаляем установленные обработчики событий
+            $page.find('.js-back').off('click', showMainScreen);
+        }
+
+        function showScoreboardScreen() {
+            hideMainScreen();
+            currentScreen = 'scoreboard';
+            $page.html(scoreboardTmpl()); // Рендерим шаблон
+
+            // Инициализируем обработчики событий
+            $page.find('.js-back').on('click', showMainScreen);
+        }
+
+        function hideScoreboardScreen() {
+            // Удаляем установленные обработчики событий
+            $page.find('.js-back').off('click', showMainScreen);
+        }
+
+        function showMainScreen() {
+            if (currentScreen === 'game') {
+                hideGameScreen();
+            } else if (currentScreen === 'login') {
+                hideLoginScreen();
+            } else if (currentScreen === 'scoreboard') {
+                hideScoreboardScreen();
+            }
+            currentScreen = 'main';
+            $page.html(mainTmpl()); // Рендерим шаблон
+
+            // Инициализируем обработчики событий
+            $page.find('.js-scoreboard').on('click', showScoreboardScreen);
+            $page.find('.js-start-game').on('click', showGameScreen);
+            $page.find('.js-login').on('click', showLoginScreen);
+        }
+
+        function hideMainScreen() {
+            // Удаляем установленные обработчики событий
+            $page.find('.js-scoreboard').off('click', showScoreboardScreen);
+            $page.find('.js-start-game').off('click', showGameScreen);
+            $page.find('.js-login').off('click', showLoginScreen);
+        }
+
+        showMainScreen();
+    </script>
+
+    <a id="my" href="..">this is link</a>
     <script>
         $(document).ready( function() {
             $("a").addClass("test");
         });
+
+        // it's working
+        jQuery(document).ready(function(){
+            jQuery("article h2").css(
+                "background-color",
+                "yellow"
+            );
+        });
+
+        $('a#my').attr({ 'href':'http://anton.shevchuk.name', 'title':'My Personal Blog', });
+
+        $('form').submit(function(){
+            // чуть позже расскажу подробнее о AJAX
+            $.post( $(this).attr('action'), // ссылка куда отправляем данные
+                $(this).serialize() // данные формы
+            );
+            // отключаем действие по умолчанию
+            return false;
+        });
     </script>
+
+
 </body>
 </html>
